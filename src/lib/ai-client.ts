@@ -15,9 +15,9 @@ export const callQwenAI = async (messages: any[]) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'qwen-plus',
+      model: 'Qwen/Qwen3-8B',
       messages,
-      response_format: { type: 'json_object' }
+      // response_format: { type: 'json_object' }
     }),
   });
 
