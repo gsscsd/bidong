@@ -1,0 +1,8 @@
+{"level":"info","message":"初始化ExtractUserProfileTagsService","service":"bidong-api","timestamp":"2026-01-14T12:23:28.802Z"}
+{"level":"info","message":"API基础URL: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions","service":"bidong-api","timestamp":"2026-01-14T12:23:28.804Z"}
+{"level":"info","message":"API密钥: 已配置","service":"bidong-api","timestamp":"2026-01-14T12:23:28.804Z"}
+{"level":"info","message":"GET http://localhost:3000/ - 200 - 1ms","service":"bidong-api","timestamp":"2026-01-14T12:23:32.569Z"}
+{"level":"info","message":"GET http://localhost:3000/ - 200 - 0ms","service":"bidong-api","timestamp":"2026-01-14T12:23:36.588Z"}
+{"level":"info","message":"初始化ExtractUserProfileTagsService","service":"bidong-api","timestamp":"2026-01-14T12:25:08.228Z"}
+{"level":"info","message":"GET http://localhost:3000/ - 200 - 0ms","service":"bidong-api","timestamp":"2026-01-14T12:45:11.465Z"}
+{"level":"info","message":"GET http://localhost:3000/ - 200 - 1ms","service":"bidong-api","timestamp":"2026-01-14T13:17:51.479Z"}

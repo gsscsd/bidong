@@ -1,0 +1,17 @@
+{
+  "name": "bidong",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.7.6",
+    "@types/winston": "^2.4.4",
+    "dotenv": "^17.2.3",
+    "hono": "^4.11.4",
+    "winston": "^3.19.0",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
