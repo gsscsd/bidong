@@ -3,6 +3,7 @@ import { zValidator } from '@hono/zod-validator';
 import { ExtractUserProfileTagSchema } from '../types/user.profile.type';
 // 导入函数式 Service
 import * as tagService from '../services/tag.service';
+import { logger } from '../config/logger';
 
 const router = new Hono();
 
@@ -23,6 +24,12 @@ router.post(
     async (c) => {
         const data = c.req.valid('json');
         const result = await tagService.extractUserProfileTags(data);
+
+        // 使用 winston 的对象传参方式
+        logger.info('Service Execution Success', { 
+            output: result 
+        });
+
         // 返回合格的结果
         return c.json({ code: 200, message: 'ok', data: result });
     }

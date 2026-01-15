@@ -5,7 +5,6 @@ export const callQwenAI = async (messages: any[]) => {
   const baseUrl = Bun.env.apiBaseUrl;
 
   logger.info(`调用AI服务: ${baseUrl}`);
-  logger.info(`调用AI服务: ${apiKey}`);
 
   if (!apiKey || !baseUrl) {
     throw new Error('AI 服务配置未初始化，请检查环境变量');
@@ -18,7 +17,7 @@ export const callQwenAI = async (messages: any[]) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'Qwen/Qwen3-8B',
+      model: 'Qwen/Qwen2.5-7B-Instruct',
       messages,
       response_format: { type: 'json_object' }
     }),
