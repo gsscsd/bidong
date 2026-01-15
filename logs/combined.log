@@ -6,3 +6,54 @@
 {"level":"info","message":"初始化ExtractUserProfileTagsService","service":"bidong-api","timestamp":"2026-01-14T12:25:08.228Z"}
 {"level":"info","message":"GET http://localhost:3000/ - 200 - 0ms","service":"bidong-api","timestamp":"2026-01-14T12:45:11.465Z"}
 {"level":"info","message":"GET http://localhost:3000/ - 200 - 1ms","service":"bidong-api","timestamp":"2026-01-14T13:17:51.479Z"}
+{"level":"info","message":"GET http://localhost:3999/ 返回结果为 - 200 - [object ReadableStream]","service":"bidong-api","timestamp":"2026-01-15T03:56:10.741Z"}
+{"level":"info","message":"GET http://localhost:3999/ - 200 - 8ms","service":"bidong-api","timestamp":"2026-01-15T03:56:10.746Z"}
+{"level":"info","message":"GET http://localhost:3999/favicon.ico 返回结果为 - 404 - [object ReadableStream]","service":"bidong-api","timestamp":"2026-01-15T03:56:11.590Z"}
+{"level":"info","message":"GET http://localhost:3999/favicon.ico - 404 - 1ms","service":"bidong-api","timestamp":"2026-01-15T03:56:11.591Z"}
+{"detail":"Not Found","level":"error","message":"AI API 失败: 404","service":"bidong-api","timestamp":"2026-01-15T04:05:37.387Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags 返回结果为 - 500 - [object ReadableStream]","service":"bidong-api","timestamp":"2026-01-15T04:05:37.392Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 500 - 3289ms","service":"bidong-api","timestamp":"2026-01-15T04:05:37.393Z"}
+{"detail":"Not Found","level":"error","message":"AI API 失败: 404","service":"bidong-api","timestamp":"2026-01-15T04:07:10.027Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags 返回结果为 - 500","service":"bidong-api","timestamp":"2026-01-15T04:07:10.030Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 500 - 41ms","service":"bidong-api","timestamp":"2026-01-15T04:07:10.030Z"}
+{"detail":"Not Found","level":"error","message":"AI API 失败: 404","service":"bidong-api","timestamp":"2026-01-15T04:07:50.717Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags 返回结果为 - 500","service":"bidong-api","timestamp":"2026-01-15T04:07:50.718Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 500 - 38ms","service":"bidong-api","timestamp":"2026-01-15T04:07:50.718Z"}
+{"detail":"Not Found","level":"error","message":"AI API 失败: 404","service":"bidong-api","timestamp":"2026-01-15T04:07:52.860Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags 返回结果为 - 500","service":"bidong-api","timestamp":"2026-01-15T04:07:52.860Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 500 - 38ms","service":"bidong-api","timestamp":"2026-01-15T04:07:52.861Z"}
+{"level":"info","message":"调用AI服务: https://api.siliconflow.cn/v1","service":"bidong-api","timestamp":"2026-01-15T04:08:14.038Z"}
+{"level":"info","message":"调用AI服务: sk-jllxztduwytjjqmzvixjcwhkllyzljpkeezufnuxrpfbgzrm","service":"bidong-api","timestamp":"2026-01-15T04:08:14.039Z"}
+{"detail":"Not Found","level":"error","message":"AI API 失败: 404","service":"bidong-api","timestamp":"2026-01-15T04:08:14.076Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags 返回结果为 - 500","service":"bidong-api","timestamp":"2026-01-15T04:08:14.076Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 500 - 41ms","service":"bidong-api","timestamp":"2026-01-15T04:08:14.077Z"}
+{"level":"info","message":"调用AI服务: https://api.siliconflow.cn/v1","service":"bidong-api","timestamp":"2026-01-15T04:09:35.531Z"}
+{"level":"info","message":"调用AI服务: sk-jllxztduwytjjqmzvixjcwhkllyzljpkeezufnuxrpfbgzrm","service":"bidong-api","timestamp":"2026-01-15T04:09:35.532Z"}
+{"level":"info","message":"AI API 调用结果: [object Response]","service":"bidong-api","timestamp":"2026-01-15T04:09:35.568Z"}
+{"detail":"Not Found","level":"error","message":"AI API 失败: 404","service":"bidong-api","timestamp":"2026-01-15T04:09:35.569Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags 返回结果为 - 500","service":"bidong-api","timestamp":"2026-01-15T04:09:35.569Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 500 - 39ms","service":"bidong-api","timestamp":"2026-01-15T04:09:35.569Z"}
+{"level":"info","message":"调用AI服务: https://api.siliconflow.cn/v1","service":"bidong-api","timestamp":"2026-01-15T04:09:59.735Z"}
+{"level":"info","message":"调用AI服务: sk-jllxztduwytjjqmzvixjcwhkllyzljpkeezufnuxrpfbgzrm","service":"bidong-api","timestamp":"2026-01-15T04:09:59.736Z"}
+{"level":"info","message":"AI API 调用结果: [object Promise]","service":"bidong-api","timestamp":"2026-01-15T04:09:59.771Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags 返回结果为 - 500","service":"bidong-api","timestamp":"2026-01-15T04:09:59.772Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 500 - 38ms","service":"bidong-api","timestamp":"2026-01-15T04:09:59.772Z"}
+{"level":"info","message":"调用AI服务: https://api.siliconflow.cn/v1","service":"bidong-api","timestamp":"2026-01-15T04:10:06.316Z"}
+{"level":"info","message":"调用AI服务: sk-jllxztduwytjjqmzvixjcwhkllyzljpkeezufnuxrpfbgzrm","service":"bidong-api","timestamp":"2026-01-15T04:10:06.317Z"}
+{"level":"info","message":"AI API 调用结果: [object Promise]","service":"bidong-api","timestamp":"2026-01-15T04:10:06.352Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags 返回结果为 - 500","service":"bidong-api","timestamp":"2026-01-15T04:10:06.353Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 500 - 37ms","service":"bidong-api","timestamp":"2026-01-15T04:10:06.353Z"}
+{"level":"info","message":"调用AI服务: https://api.siliconflow.cn/v1","service":"bidong-api","timestamp":"2026-01-15T04:10:19.226Z"}
+{"level":"info","message":"调用AI服务: sk-jllxztduwytjjqmzvixjcwhkllyzljpkeezufnuxrpfbgzrm","service":"bidong-api","timestamp":"2026-01-15T04:10:19.227Z"}
+{"detail":"Not Found","level":"error","message":"AI API 失败: 404","service":"bidong-api","timestamp":"2026-01-15T04:10:19.264Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags 返回结果为 - 500","service":"bidong-api","timestamp":"2026-01-15T04:10:19.264Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 500 - 39ms","service":"bidong-api","timestamp":"2026-01-15T04:10:19.264Z"}
+{"level":"info","message":"调用AI服务: https://api.siliconflow.cn/v1","service":"bidong-api","timestamp":"2026-01-15T04:12:19.771Z"}
+{"level":"info","message":"调用AI服务: sk-jllxztduwytjjqmzvixjcwhkllyzljpkeezufnuxrpfbgzrm","service":"bidong-api","timestamp":"2026-01-15T04:12:19.772Z"}
+{"detail":"Not Found","level":"error","message":"AI API 失败: 404","service":"bidong-api","timestamp":"2026-01-15T04:12:19.808Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags 返回结果为 - 500","service":"bidong-api","timestamp":"2026-01-15T04:12:19.809Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 500 - 39ms","service":"bidong-api","timestamp":"2026-01-15T04:12:19.809Z"}
+{"level":"info","message":"调用AI服务: https://api.siliconflow.cn/v1/chat/completions","service":"bidong-api","timestamp":"2026-01-15T04:12:29.144Z"}
+{"level":"info","message":"调用AI服务: sk-jllxztduwytjjqmzvixjcwhkllyzljpkeezufnuxrpfbgzrm","service":"bidong-api","timestamp":"2026-01-15T04:12:29.147Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags 返回结果为 - 200","service":"bidong-api","timestamp":"2026-01-15T04:12:35.624Z"}
+{"level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 200 - 6485ms","service":"bidong-api","timestamp":"2026-01-15T04:12:35.625Z"}

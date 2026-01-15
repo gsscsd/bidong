@@ -16,7 +16,7 @@ app.use('*', async (c, next) => {
 // 格式化返回结果
 app.use('*', async (c, next) => {
   await next();
-  logger.info(`${c.req.method} ${c.req.url} 返回结果为 - ${c.res.status} - ${c.res.body}`)
+  logger.info(`${c.req.method} ${c.req.url} 返回结果为 - ${c.res.status}`)
   c.json({
     code: 200,
     message: '返回结果成功',
