@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  bidong-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bidong-api
+    ports:
+      - "3999:3999"
+    environment:
+      - NODE_ENV=production
+      - apiBaseUrl=${apiBaseUrl:-https://api.siliconflow.cn/v1/chat/completions}
+      - apiKey=${apiKey}
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3999/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - bidong-network
+
+networks:
+  bidong-network:
+    driver: bridge

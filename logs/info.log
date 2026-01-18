@@ -40,3 +40,22 @@
 {"content":"{\n  \"self_tags\": [\"济南\", \"打篮球\", \"外卖员\"],\n  \"preference_tags\": [\"肤白貌美\", \"大长腿\"]\n}","filename":"tag.service.ts:14","level":"info","message":"大模型返回结果为: ","service":"bidong-api","timestamp":"2026-01-15 20:14:08"}
 {"filename":"extract.route.ts:29","level":"info","message":"Service Execution Success","output":{"preference_tags":["肤白貌美","大长腿"],"self_tags":["济南","打篮球","外卖员"]},"service":"bidong-api","timestamp":"2026-01-15 20:14:08"}
 {"filename":"app.ts:13","level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 200 - 1791ms","service":"bidong-api","timestamp":"2026-01-15 20:14:08"}
+{"filename":"ai-client.ts:7","level":"info","message":"调用AI服务: https://api.siliconflow.cn/v1/chat/completions","service":"bidong-api","timestamp":"2026-01-18 16:31:29"}
+{"content":"{\n  \"self_tags\": [\"济南\", \"打篮球\", \"外卖员\"],\n  \"preference_tags\": [\"肤白貌美\", \"大长腿\"]\n}","filename":"tag.service.ts:14","level":"info","message":"大模型返回结果为: ","service":"bidong-api","timestamp":"2026-01-18 16:31:31"}
+{"filename":"extract.route.ts:29","level":"info","message":"Service Execution Success","output":{"preference_tags":["肤白貌美","大长腿"],"self_tags":["济南","打篮球","外卖员"]},"service":"bidong-api","timestamp":"2026-01-18 16:31:31"}
+{"filename":"app.ts:13","level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 200 - 1905ms","service":"bidong-api","timestamp":"2026-01-18 16:31:31"}
+{"filename":"ai-client.ts:7","level":"info","message":"调用AI服务: https://api.siliconflow.cn/v1/chat/completions","service":"bidong-api","timestamp":"2026-01-18 16:32:26"}
+{"content":"{\n  \"self_tags\": [\"济南\", \"打篮球\", \"外卖员\"],\n  \"preference_tags\": [\"肤白貌美\", \"大长腿\"]\n}","filename":"tag.service.ts:14","level":"info","message":"大模型返回结果为: ","service":"bidong-api","timestamp":"2026-01-18 16:32:27"}
+{"filename":"extract.route.ts:29","level":"info","message":"Service Execution Success","output":{"preference_tags":["肤白貌美","大长腿"],"self_tags":["济南","打篮球","外卖员"]},"service":"bidong-api","timestamp":"2026-01-18 16:32:27"}
+{"filename":"app.ts:13","level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 200 - 466ms","service":"bidong-api","timestamp":"2026-01-18 16:32:27"}
+{"filename":"app.ts:13","level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 400 - 1ms","service":"bidong-api","timestamp":"2026-01-18 16:34:14"}
+{"filename":"app.ts:13","level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 500 - 1ms","service":"bidong-api","timestamp":"2026-01-18 16:34:43"}
+{"filename":"app.ts:13","level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 400 - 3ms","service":"bidong-api","timestamp":"2026-01-18 16:34:52"}
+{"filename":"ai-client.ts:7","level":"info","message":"调用AI服务: https://api.siliconflow.cn/v1/chat/completions","service":"bidong-api","timestamp":"2026-01-18 16:35:46"}
+{"content":"{\n  \"self_tags\": [\"济南\", \"打篮球\", \"外卖员\"],\n  \"preference_tags\": [\"肤白貌美\", \"大长腿\"]\n}","filename":"tag.service.ts:14","level":"info","message":"大模型返回结果为: ","service":"bidong-api","timestamp":"2026-01-18 16:35:47"}
+{"filename":"extract.route.ts:29","level":"info","message":"Service Execution Success","output":{"preference_tags":["肤白貌美","大长腿"],"self_tags":["济南","打篮球","外卖员"]},"service":"bidong-api","timestamp":"2026-01-18 16:35:47"}
+{"filename":"app.ts:13","level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 200 - 482ms","service":"bidong-api","timestamp":"2026-01-18 16:35:47"}
+{"filename":"ai-client.ts:7","level":"info","message":"调用AI服务: https://api.siliconflow.cn/v1/chat/completions","service":"bidong-api","timestamp":"2026-01-18 18:06:55"}
+{"content":"{\n  \"self_tags\": [\"济南\", \"打篮球\", \"外卖员\"],\n  \"preference_tags\": [\"肤白貌美\", \"大长腿\"]\n}","filename":"tag.service.ts:14","level":"info","message":"大模型返回结果为: ","service":"bidong-api","timestamp":"2026-01-18 18:06:59"}
+{"filename":"extract.route.ts:29","level":"info","message":"Service Execution Success","output":{"preference_tags":["肤白貌美","大长腿"],"self_tags":["济南","打篮球","外卖员"]},"service":"bidong-api","timestamp":"2026-01-18 18:06:59"}
+{"filename":"app.ts:13","level":"info","message":"POST http://localhost:3999/v1/extractUserProfileTags - 200 - 3993ms","service":"bidong-api","timestamp":"2026-01-18 18:06:59"}

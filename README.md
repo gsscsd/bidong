@@ -60,6 +60,57 @@ bun run dev
 
 服务将在 `http://localhost:3999` 启动
 
+## 🐳 Docker 部署
+
+### 快速部署
+```bash
+# 1. 配置环境变量
+cp .env.example .env
+# 编辑 .env 文件设置 API 密钥
+
+# 2. 使用 Docker Compose 启动
+docker-compose up -d
+
+# 3. 查看服务状态
+docker-compose ps
+```
+
+### 手动构建
+```bash
+# 构建镜像
+docker build -t bidong-api:latest .
+
+# 运行容器
+docker run -d \
+  --name bidong-api \
+  -p 3999:3999 \
+  -e apiBaseUrl="https://api.siliconflow.cn/v1/chat/completions" \
+  -e apiKey="your-api-key-here" \
+  -v $(pwd)/logs:/app/logs \
+  bidong-api:latest
+```
+
+### 开发环境
+```bash
+# 构建开发镜像
+docker build -f Dockerfile.dev -t bidong-api:dev .
+
+# 启动开发容器（支持热重载）
+docker run -d --name bidong-dev -p 3999:3999 -v $(pwd)/src:/app/src bidong-api:dev
+```
+
+### 测试 Docker 配置
+```bash
+# Windows PowerShell
+.\test-docker.ps1
+
+# Linux/macOS
+chmod +x test-docker.sh
+./test-docker.sh
+```
+
+详细的 Docker 部署指南请参考 [DOCKER.md](./DOCKER.md)
+
 ## 📚 API文档
 
 ### 基础信息

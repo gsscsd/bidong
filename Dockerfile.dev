@@ -1,0 +1,25 @@
+# 开发环境 Dockerfile
+FROM oven/bun:1.1-alpine
+
+WORKDIR /app
+
+# 安装开发工具
+RUN apk add --no-cache curl
+
+# 复制包管理文件
+COPY package.json bun.lock ./
+
+# 安装所有依赖（包括开发依赖）
+RUN bun install
+
+# 复制源代码
+COPY . .
+
+# 暴露端口
+EXPOSE 3999
+
+# 设置环境变量
+ENV NODE_ENV=development
+
+# 启动开发服务器（热重载）
+CMD ["bun", "run", "dev"]
