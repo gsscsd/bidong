@@ -1,21 +1,21 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
-import { ExtractUserProfileTagSchema } from '../types/user.profile.type';
+import { ExtractUserProfileTagSchema } from '../../types/user.profile.type';
 // 导入函数式 Service
-import * as tagService from '../services/tag.service';
-import { logger } from '../config/logger';
+import * as tagService from '../../services/tag.service';
+import { logger } from '../../config/logger';
 
 const router = new Hono();
 
 router.post(
-    '/',
+    '/extractUserProfileTags',
     // 1. 在路由处直接进行 Zod 校验
     zValidator('json', ExtractUserProfileTagSchema, (result, c) => {
         if (!result.success) {
             // 如果校验失败，直接返回统一的错误格式
             return c.json({
                 code: 400,
-                message: '参数校验失败',
+                message: result.error.message,
                 data: null
             }, 400);
         }

@@ -3,6 +3,7 @@ import { logger } from '../config/logger';
 export const callQwenAI = async (messages: any[]) => {
   const apiKey = Bun.env.apiKey;
   const baseUrl = Bun.env.apiBaseUrl;
+  const apiModel = Bun.env.apiModel;
 
   logger.info(`调用AI服务: ${baseUrl}`);
 
@@ -17,7 +18,7 @@ export const callQwenAI = async (messages: any[]) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'Qwen/Qwen2.5-7B-Instruct',
+      model: apiModel,
       messages,
       response_format: { type: 'json_object' }
     }),

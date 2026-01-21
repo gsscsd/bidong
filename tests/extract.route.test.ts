@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, mock } from 'bun:test';
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
-import router from '../src/routes/extract.route';
+import router from '../src/routes/v1/extract.route';
 import * as tagService from '../src/services/tag.service';
 import { logger } from '../src/config/logger';
 import { ExtractUserProfileTagSchema } from '../src/types/user.profile.type';
