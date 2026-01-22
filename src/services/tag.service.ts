@@ -1,9 +1,9 @@
 import { callQwenAI } from '../lib/ai-client';
 import { EXTRACT_USER_PROFILE_TAGS_PROMPT } from '../constants/prompts';
-import type { CreateExtractUserProfileTagDto } from '../types/user.profile.type';
+import type { CreateExtractUserInfoTagDto, CreateExtractUserProfileTagDto } from '../types/user.profile.type';
 import { logger } from '../config/logger';
 
-export const extractUserProfileTags = async (dto: CreateExtractUserProfileTagDto) => {
+export const extractUserProfileTags = async (dto: CreateExtractUserInfoTagDto) => {
   const responseData = await callQwenAI([
     { role: 'system', content: EXTRACT_USER_PROFILE_TAGS_PROMPT },
     { role: 'user', content: dto.user_introduces },

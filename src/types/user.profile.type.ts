@@ -7,9 +7,17 @@ export const ExtractUserProfileTagSchema = z.object({
   user_age: z.number().nonnegative()
 });
 
+
+export const ExtractUserInfoTagSchema = z.object({
+  user_introduces: z.string().nonempty(),
+});
+
+
 export type CreateExtractUserProfileTagDto = z.infer<typeof ExtractUserProfileTagSchema>;
 
-export interface ExtractUserProfileTagResponse {
+export type CreateExtractUserInfoTagDto = z.infer<typeof ExtractUserInfoTagSchema>;
+
+export interface CommonResponse {
   code: number;
   message: string;
 }
