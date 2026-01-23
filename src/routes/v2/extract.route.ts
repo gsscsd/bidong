@@ -23,7 +23,7 @@ router.post(
     // 2. 处理函数：注意这里不需要显式给 c 写类型，Hono 会自动推断
     async (c) => {
         const data = c.req.valid('json');
-        const result = await tagService.extractUserProfileTags(data);
+        const result = await tagService.extractUserInfoTags(data);
 
         // 使用 winston 的对象传参方式
         logger.info('Service Execution Success', { 

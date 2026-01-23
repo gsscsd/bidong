@@ -13,7 +13,9 @@
 ## 📋 功能概览
 
 ### 用户画像标签提取
+
 根据用户提供的自我介绍信息，智能提取以下维度的标签：
+
 - 兴趣爱好 (hobbies)
 - 职业信息 (occupation)
 - 地理位置信息 (location)
@@ -33,27 +35,34 @@
 ## 📦 安装与运行
 
 ### 环境要求
-- Node.js 18+ 或 Bun 最新版本
+
+- Bun 最新版本
 - 支持的平台: macOS, Linux, Windows
 
 ### 安装依赖
+
 ```bash
 bun install
 ```
 
 ### 环境配置
+
 复制环境变量配置文件：
+
 ```bash
 cp .env.example .env
 ```
 
 编辑 `.env` 文件，配置AI服务参数：
+
 ```env
 apiBaseUrl=https://api.siliconflow.cn/v1/chat/completions
 apiKey=sk-your-api-key-here
+apiModel=XXX
 ```
 
 ### 启动开发服务器
+
 ```bash
 bun run dev
 ```
@@ -63,6 +72,7 @@ bun run dev
 ## 🐳 Docker 部署
 
 ### 快速部署
+
 ```bash
 # 1. 配置环境变量
 cp .env.example .env
@@ -76,6 +86,7 @@ docker-compose ps
 ```
 
 ### 手动构建
+
 ```bash
 # 构建镜像
 docker build -t bidong-api:latest .
@@ -91,6 +102,7 @@ docker run -d \
 ```
 
 ### 开发环境
+
 ```bash
 # 构建开发镜像
 docker build -f Dockerfile.dev -t bidong-api:dev .
@@ -100,6 +112,7 @@ docker run -d --name bidong-dev -p 3999:3999 -v $(pwd)/src:/app/src bidong-api:d
 ```
 
 ### 测试 Docker 配置
+
 ```bash
 # Windows PowerShell
 .\test-docker.ps1
@@ -114,16 +127,19 @@ chmod +x test-docker.sh
 ## 📚 API文档
 
 ### 基础信息
+
 - **Base URL**: `http://localhost:3999`
 - **API版本**: v1
 - **数据格式**: JSON
 
 ### 健康检查
+
 ```http
 GET /
 ```
 
 **响应示例:**
+
 ```json
 {
   "message": "Bidong API is running",
@@ -133,11 +149,13 @@ GET /
 ```
 
 ### 用户画像标签提取
+
 ```http
 POST /v1/extractUserProfileTags
 ```
 
 **请求参数:**
+
 ```json
 {
   "user_id": "uuid-string",
@@ -147,23 +165,8 @@ POST /v1/extractUserProfileTags
 }
 ```
 
-**响应示例:**
-```json
-{
-  "code": 200,
-  "message": "ok",
-  "data": {
-    "hobbies": ["篮球", "编程"],
-    "occupation": "程序员",
-    "location": "北京",
-    "preferences": ["肤白貌美大长腿"],
-    "personality": [],
-    "other": []
-  }
-}
-```
-
 **参数说明:**
+
 - `user_id`: 用户唯一标识符 (UUID格式)
 - `user_introduces`: 用户自我介绍文本
 - `user_sex`: 用户性别 ('男' | '女' | '其他')
@@ -197,23 +200,25 @@ bidong/
 ## 🔧 开发指南
 
 ### 添加新的API端点
+
 1. 在 `src/routes/` 目录下创建新的路由文件
 2. 在 `src/services/` 目录下实现业务逻辑
 3. 在 `src/types/` 目录下定义相关类型
 4. 在 `src/app.ts` 中注册新路由
 
 ### 日志查看
-- 应用日志: `logs/combined.log`
-- 错误日志: `logs/error.log`
 
 ### 环境变量
+
 项目使用以下环境变量：
+
 - `apiBaseUrl`: AI服务API地址
 - `apiKey`: AI服务API密钥
 
 ## 🚨 错误处理
 
 API采用统一的错误响应格式：
+
 ```json
 {
   "code": 400,
@@ -223,6 +228,7 @@ API采用统一的错误响应格式：
 ```
 
 常见错误码：
+
 - `400`: 请求参数错误
 - `404`: API接口不存在
 - `500`: 服务器内部错误

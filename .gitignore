@@ -1,7 +1,10 @@
 # deps
 node_modules/
 
-
 .env
 
 logs/
+
+.codebuddy
+.specify
+
