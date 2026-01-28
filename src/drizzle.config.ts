@@ -1,9 +1,16 @@
 import { defineConfig } from "drizzle-kit";
 
+const databaseUrl = Bun.env.DATABASE_URL;
+
+if (!databaseUrl) {
+  throw new Error("DATABASE_URL 环境变量未定义，请检查 .env 文件");
+}
+
+
 export default defineConfig({
-  schema: "./src/db/schema.ts", // 你的schema文件路径
-  dialect: "postgresql", // 可选：mysql、sqlite
+  schema: "./src/db/schema.ts",
+  dialect: "postgresql",
   dbCredentials: {
-    url: "postgres://username:password@localhost:5432/your_db_name", // 替换为你的数据库连接串
+    url:  databaseUrl, 
   },
 });

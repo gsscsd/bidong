@@ -1,0 +1,230 @@
+[
+    {
+        "field": "id",
+        "type": "BIGINT",
+        "length": null,
+        "description": "用户ID"
+    },
+    {
+        "field": "mobile",
+        "type": "VARCHAR",
+        "length": 20,
+        "description": "手机号"
+    },
+    {
+        "field": "nickname",
+        "type": "VARCHAR",
+        "length": 50,
+        "description": "昵称"
+    },
+    {
+        "field": "union_id",
+        "type": "VARCHAR",
+        "length": 64,
+        "description": "微信unionId"
+    },
+    {
+        "field": "avatar_url",
+        "type": "VARCHAR",
+        "length": 255,
+        "description": "头像URL"
+    },
+    {
+        "field": "age",
+        "type": "INT",
+        "length": null,
+        "description": "年龄"
+    },
+    {
+        "field": "gender",
+        "type": "INT",
+        "length": null,
+        "description": "性别"
+    },
+    {
+        "field": "birthdate",
+        "type": "VARCHAR",
+        "length": 20,
+        "description": "出生日期"
+    },
+    {
+        "field": "height",
+        "type": "INT",
+        "length": null,
+        "description": "身高"
+    },
+    {
+        "field": "weight",
+        "type": "INT",
+        "length": null,
+        "description": "体重"
+    },
+    {
+        "field": "hometown",
+        "type": "VARCHAR",
+        "length": 100,
+        "description": "故乡"
+    },
+    {
+        "field": "current_city",
+        "type": "VARCHAR",
+        "length": 100,
+        "description": "当前城市"
+    },
+    {
+        "field": "occupation",
+        "type": "VARCHAR",
+        "length": 100,
+        "description": "职业"
+    },
+    {
+        "field": "education",
+        "type": "INT",
+        "length": null,
+        "description": "教育程度"
+    },
+    {
+        "field": "school",
+        "type": "VARCHAR",
+        "length": 100,
+        "description": "学校"
+    },
+    {
+        "field": "annual_income",
+        "type": "VARCHAR",
+        "length": 50,
+        "description": "年收入"
+    },
+    {
+        "field": "marital_status",
+        "type": "INT",
+        "length": null,
+        "description": "婚姻状态：1-未婚，2-离异，3-丧偶"
+    },
+    {
+        "field": "status",
+        "type": "INT",
+        "length": null,
+        "description": "状态"
+    },
+    {
+        "field": "is_delete",
+        "type": "INT",
+        "length": null,
+        "description": "是否已销户：0-未销户，1-已销户"
+    },
+    {
+        "field": "single_status",
+        "type": "INT",
+        "length": null,
+        "description": "单身状态"
+    },
+    {
+        "field": "last_breakup_time",
+        "type": "DATETIME",
+        "length": null,
+        "description": "最后一次分手时间"
+    },
+    {
+        "field": "is_in_relationship",
+        "type": "INT",
+        "length": null,
+        "description": "是否在恋爱中"
+    },
+    {
+        "field": "relationship_start_time",
+        "type": "DATETIME",
+        "length": null,
+        "description": "恋爱开始时间"
+    },
+    {
+        "field": "relationship_end_time",
+        "type": "DATETIME",
+        "length": null,
+        "description": "恋爱结束时间"
+    },
+    {
+        "field": "is_vip",
+        "type": "INT",
+        "length": null,
+        "description": "是否VIP"
+    },
+    {
+        "field": "vip_expire_time",
+        "type": "DATETIME",
+        "length": null,
+        "description": "VIP过期时间"
+    },
+    {
+        "field": "candy",
+        "type": "INT",
+        "length": null,
+        "description": "糖果数量"
+    },
+    {
+        "field": "coin",
+        "type": "INT",
+        "length": null,
+        "description": "金币数量"
+    },
+    {
+        "field": "user_uuid",
+        "type": "VARCHAR",
+        "length": null,
+        "description": "用户公开标识UUID（字符串雪花ID）"
+    },
+    {
+        "field": "is_mobile_verified",
+        "type": "BOOLEAN/TINYINT",
+        "length": 1,
+        "description": "是否手机号验证"
+    },
+    {
+        "field": "invite_code",
+        "type": "VARCHAR",
+        "length": 32,
+        "description": "邀请码"
+    },
+    {
+        "field": "create_time",
+        "type": "DATETIME/TIMESTAMP",
+        "length": null,
+        "description": "创建时间"
+    },
+    {
+        "field": "update_time",
+        "type": "DATETIME/TIMESTAMP",
+        "length": null,
+        "description": "更新时间"
+    },
+    {
+        "field": "last_login_time",
+        "type": "DATETIME/TIMESTAMP",
+        "length": null,
+        "description": "最后登录时间"
+    },
+    {
+        "field": "registration_channel",
+        "type": "VARCHAR",
+        "length": null,
+        "description": "注册途径：ios, android, miniprogram, h5, bops 等"
+    },
+    {
+        "field": "registration_method",
+        "type": "INT",
+        "length": null,
+        "description": "注册方式：1-微信，2-手机号"
+    },
+    {
+        "field": "ban_time",
+        "type": "DATETIME",
+        "length": null,
+        "description": "封禁时间"
+    },
+    {
+        "field": "last_active_time",
+        "type": "DATETIME",
+        "length": null,
+        "description": "最后活跃时间"
+    }
+]
