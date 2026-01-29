@@ -5,8 +5,8 @@ import { ChatMessages }  from "../types/ai.type"
 // 1. 初始化 Client (单例模式)
 // 放在函数外部，保证整个应用运行期间只初始化一次
 const client = new OpenAI({
-  apiKey: Bun.env.apiKey,
-  baseURL: Bun.env.apiBaseUrl,
+  apiKey: Bun.env.API_KEY,
+  baseURL: Bun.env.API_BASE_URL,
 });
 
 /**
@@ -16,7 +16,7 @@ const client = new OpenAI({
 export const callQwenAI = async (messages: ChatMessages) => {
   try {
     const completion = await client.chat.completions.create({
-      model: Bun.env.apiModel || 'qwen-turbo',
+      model: Bun.env.API_MODEL || 'qwen-turbo',
       messages: messages,
       // 注意：使用 json_object 模式时，Prompt 中必须包含 "JSON" 字样
       response_format: { type: 'json_object' }, 
@@ -38,7 +38,7 @@ export const callQwenAIStream = async function* (messages: ChatMessages) {
 
   try {
     const stream = await client.chat.completions.create({
-      model: Bun.env.apiModel || 'qwen-turbo',
+      model: Bun.env.API_MODEL || 'qwen-turbo',
       messages: messages,
       stream: true, // 开启流式
     });
