@@ -9,9 +9,10 @@ import * as schema from './schema'; // 导入你刚刚定义的 schema
 const connectionString = Bun.env.DATABASE_URL;
 
 if (!connectionString) {
-  throw new Error('DATABASE_URL is not defined in .env file');
+  console.error("❌ 致命错误: 环境变量 DATABASE_URL 未定义！");
+  console.error("请检查根目录下是否存在 .env 文件，或是否已运行 bun install");
+  process.exit(1); // 显式退出并打印错误
 }
-
 /**
  * 2. 创建 Postgres 查询执行器
  * 

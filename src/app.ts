@@ -1,6 +1,9 @@
+// src/app.ts
 import { Hono } from 'hono';
 import { logger } from './config/logger';
-import extractUserProfileTags from './routes/v1/extract.route';
+import extractUserProfileTagsV1 from './routes/v1/extract.route';
+import extractUserProfileTagsV2 from './routes/v2/extract.route';
+import extractUserProfileTagsV3 from './routes/v3/extract.route';
 
 const app = new Hono();
 
@@ -34,7 +37,9 @@ app.get('/', (c) => {
 });
 
 // 用户画像标签路由
-app.route('/v1', extractUserProfileTags);
+app.route('/v1', extractUserProfileTagsV1);
+app.route('/v2', extractUserProfileTagsV2);
+app.route('/v3', extractUserProfileTagsV3);
 
 // 404处理
 app.notFound((c) => {

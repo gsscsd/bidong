@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,  // <--- 加上这一行
+    "allowSyntheticDefaultImports": true, // 通常这个也会一起加上
     "strict": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx"

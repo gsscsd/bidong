@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
-import { ExtractUserInfoTagSchema, ExtractUserProfileTagSchema } from '../../types/user.profile.type';
+import { ExtractUserInfoTagSchema } from '../../types/user.profile.type';
 // 导入函数式 Service
 import * as tagService from '../../services/tag.service';
 import { logger } from '../../config/logger';
