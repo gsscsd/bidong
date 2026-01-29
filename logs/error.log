@@ -1,3 +1,0 @@
-{"detail":"{\"error\":{\"code\":\"invalid_parameter\",\"message\":\"model字段不能为空\",\"type\":\"invalid_request_error\"}}","filename":"ai-client.ts:29","level":"error","message":"AI API 失败: 400","service":"bidong-api","timestamp":"2026-01-21 21:37:04"}
-{"detail":"{\"error\":{\"code\":\"invalid_parameter\",\"message\":\"model字段不能为空\",\"type\":\"invalid_request_error\"}}","filename":"ai-client.ts:29","level":"error","message":"AI API 失败: 400","service":"bidong-api","timestamp":"2026-01-21 21:37:34"}
-{"detail":"{\"error\":{\"code\":\"invalid_parameter\",\"message\":\"model字段不能为空\",\"type\":\"invalid_request_error\"}}","filename":"ai-client.ts:29","level":"error","message":"AI API 失败: 400","service":"bidong-api","timestamp":"2026-01-21 21:37:36"}
