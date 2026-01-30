@@ -90,3 +90,21 @@ export const tagCorrelations = pgTable('tag_correlations', {
     targetTagId: integer('target_id').notNull(), // 联想出的标签
     weight: integer('weight').default(1), // 关联强度，权重高的排在前面弹出
 });
+
+// --- 7. 用户设置表 ---
+export const userSettings = pgTable('user_settings', {
+    id: serial('id').primaryKey(),
+    userUuid: text('user_uuid').notNull().unique(),
+    // 推荐设置
+    recommendCount: smallint('recommend_count').default(20), // 推荐数量，默认20
+    // 理想型性别通过自身性别推导：男找女，女找男
+    // 理想型年龄范围
+    preferredAgeMin: smallint('preferred_age_min').default(20),
+    preferredAgeMax: smallint('preferred_age_max').default(45),
+    // 理想型身高范围 (单位: cm)
+    preferredHeightMin: smallint('preferred_height_min').default(150),
+    preferredHeightMax: smallint('preferred_height_max').default(200),
+    // 理想型城市 (数组，可为空)
+    preferredCities: text('preferred_cities').array().default(sql`'{}'::text[]`),
+    updatedAt: timestamp('updated_at').defaultNow(),
+});

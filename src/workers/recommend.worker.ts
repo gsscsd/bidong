@@ -1,69 +1,76 @@
 import { Worker } from 'bullmq';
 import { redisConnection } from '../config/redis';
 import { db } from '../db';
+import { recommendUserProfiles, dailyRecommendations } from '../db/schema';
+import { generateRecommendationsForUser } from '../lib/recommend.algorithm';
 
 export const recommendWorker = new Worker('batch-recommendation', async (job) => {
   console.log(`[Worker: Recommend] 开始执行全量离线推荐计算...`);
-  
-  // 这里写你之前那个非常复杂的 for 循环逻辑
-  // 第一步：过滤... 第二步：召回... 第三步：存入离线表...
 
-//   const allUsers = await db.select().from(recommendUserProfiles);
+  // 获取所有需要推荐的用户
+  const allUsers = await db.select().from(recommendUserProfiles);
+  console.log(`[Worker: Recommend] 需要为 ${allUsers.length} 个用户生成推荐`);
 
-//   for (const user of allUsers) {
-//     // --- 第一步：硬性过滤条件获取 ---
-//     const blacklist = await getBlacklist(user.userUuid);
-//     const interactedLast15Days = await getInteractedIds(user.userUuid, 15); // 左滑右滑
-//     const unmatchedLast30Days = await getUnmatchedIds(user.userUuid, 30); // 30天内解绑
-//     const matchedUsers = await getMatchedIds(user.userUuid); // 当前已匹配
+  const currentDate = new Date().toISOString().split('T')[0];
+  let successCount = 0;
+  let errorCount = 0;
 
-//     const excludeIds = [...blacklist, ...interactedLast15Days, ...unmatchedLast30Days, ...matchedUsers, user.userUuid];
+  for (const user of allUsers) {
+    try {
+      // 为当前用户生成推荐列表
+      const recommendations = await generateRecommendationsForUser(user.userUuid);
 
-//     // --- 第二步：双向匹配策略 (心动回推) ---
-//     // 寻找最近 3 天内，有哪些人“喜欢”了我，且我还没处理过
-//     const whoLikedMe = await db.select()
-//       .from(userActions)
-//       .where(and(
-//         eq(userActions.toUserId, user.userUuid),
-//         eq(userActions.actionType, 'like'),
-//         sql`created_at > now() - interval '3 days'`,
-//         notInArray(userActions.fromUserId, excludeIds)
-//       ));
-    
-//     const priorityIds = whoLikedMe.map(action => action.fromUserId);
+      // 构建推荐结果（不包含 AI 推荐理由，由另一个 Worker 生成）
+      const recommendedUsers = recommendations.map(r => ({
+        userId: r.userId,
+        score: r.score,
+        isPriority: r.isPriority,
+        tags: r.tags,
+        reason: '', // AI 推荐理由将由 aiRecommendReason.worker.ts 生成
+        reasonGenerated: false, // 标记是否已生成推荐理由
+      }));
 
-//     // --- 第三步：向量化召回 (召回 100 个) ---
-//     const sPool = await db.select({ id: recommendUserProfiles.userUuid })
-//       .from(recommendUserProfiles)
-//       .where(and(
-//         // 硬性过滤：性别、城市、年龄等
-//         eq(recommendUserProfiles.gender, user.targetGender),
-//         notInArray(recommendUserProfiles.userUuid, excludeIds)
-//       ))
-//       .orderBy(cosineDistance(recommendUserProfiles.embedding, user.embedding))
-//       .limit(100);
+      // 存入离线表
+      await db.insert(dailyRecommendations)
+        .values({
+          userId: user.userUuid,
+          recommendeUsers: recommendedUsers,
+          calculateDate: currentDate,
+        })
+        .onConflictDoUpdate({
+          target: dailyRecommendations.userId,
+          set: {
+            recommendeUsers: recommendedUsers,
+            updatedAt: new Date(),
+          },
+        });
 
-//     // --- 第四步：最终排序 (Rerank) ---
-//     // 顺序：心动回推(Priority) > 向量相似度
-//     const finalIds = [
-//       ...priorityIds, // 已经在 excludeIds 里过滤过了
-//       ...sPool.map(p => p.id).filter(id => !priorityIds.includes(id))
-//     ].slice(0, 10); // 取前 10 个
+      successCount++;
+      console.log(`[Worker: Recommend] 用户 ${user.userUuid} 推荐完成 (${successCount}/${allUsers.length})`);
 
-//     // --- 第五步：存入离线表 ---
-//     await db.insert(dailyRecommendations)
-//       .values({
-//         userId: user.userUuid,
-//         recommendedIds: finalIds,
-//         calculateDate: new Date().toISOString().split('T')[0]
-//       })
-//       .onConflictDoUpdate({
-//         target: dailyRecommendations.userId,
-//         set: { recommendedIds: finalIds, updatedAt: new Date() }
-//       });
-//   }
-  
-}, { 
+      // 触发 AI 推荐理由生成任务
+      // 注意：这里将推荐用户列表发送到 ai-recommend-reason 队列
+      // await aiRecommendQueue.add('generate-reasons', {
+      //   userId: user.userUuid,
+      //   recommendations: recommendedUsers,
+      // });
+    } catch (error) {
+      errorCount++;
+      console.error(`[Worker: Recommend] 用户 ${user.userUuid} 推荐失败:`, error);
+    }
+  }
+
+  console.log(`[Worker: Recommend] 全量推荐计算完成，成功 ${successCount}，失败 ${errorCount}`);
+  return { successCount, errorCount, totalCount: allUsers.length };
+}, {
   connection: redisConnection,
-  concurrency: 1 // 离线计算非常耗 DB 性能，建议 1 个 1 个跑
+  concurrency: 1, // 离线计算非常耗 DB 性能，建议 1 个 1 个跑
+});
+
+recommendWorker.on('completed', (job) => {
+  console.log(`✅ [recommendWorker] 任务 ${job.id} 已完成`);
+});
+
+recommendWorker.on('failed', (job, err) => {
+  console.error(`❌ [recommendWorker] 任务 ${job?.id} 失败:`, err.message);
 });

@@ -4,6 +4,7 @@ import { logger } from './config/logger';
 import extractUserProfileTagsV1 from './routes/v1/extract.route';
 import extractUserProfileTagsV2 from './routes/v2/extract.route';
 import extractUserProfileTagsV3 from './routes/v3/extract.route';
+import recommendRouteV3 from './routes/v3/recommend.route';
 
 const app = new Hono();
 
@@ -40,6 +41,9 @@ app.get('/', (c) => {
 app.route('/v1', extractUserProfileTagsV1);
 app.route('/v2', extractUserProfileTagsV2);
 app.route('/v3', extractUserProfileTagsV3);
+
+// 推荐系统路由
+app.route('/api/v3', recommendRouteV3);
 
 // 404处理
 app.notFound((c) => {
