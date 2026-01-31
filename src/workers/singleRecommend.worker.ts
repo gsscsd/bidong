@@ -58,7 +58,7 @@ export const singleRecommendWorker = new Worker<SingleRecommendJobData>('single-
   return { userId, count: recommendedUsers.length };
 }, {
   connection: redisConnection,
-  concurrency: 5, // 单用户推荐可以适度并发
+  concurrency: 20, // 单用户推荐可以适度并发
 });
 
 singleRecommendWorker.on('completed', (job) => {

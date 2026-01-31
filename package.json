@@ -13,6 +13,9 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@bull-board/api": "^6.16.4",
+    "@bull-board/hono": "^6.16.4",
+    "@bull-board/ui": "^6.16.4",
     "@hono/zod-validator": "^0.7.6",
     "@types/winston": "^2.4.4",
     "bullmq": "^5.67.1",

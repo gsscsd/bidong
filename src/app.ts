@@ -5,6 +5,7 @@ import extractUserProfileTagsV1 from './routes/v1/extract.route';
 import extractUserProfileTagsV2 from './routes/v2/extract.route';
 import extractUserProfileTagsV3 from './routes/v3/extract.route';
 import recommendRouteV3 from './routes/v3/recommend.route';
+import { setupDashboard } from './dashboard'; // 引入刚才创建的文件
 
 const app = new Hono();
 
@@ -44,6 +45,10 @@ app.route('/v3', extractUserProfileTagsV3);
 
 // 推荐系统路由
 app.route('/api/v3', recommendRouteV3);
+
+// 🔥 挂载 Bull Board 仪表盘
+// 访问地址: http://localhost:3999/ui
+app.route('/ui', setupDashboard('/ui'));
 
 // 404处理
 app.notFound((c) => {

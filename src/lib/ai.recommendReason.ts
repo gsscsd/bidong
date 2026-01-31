@@ -1,7 +1,8 @@
-import OpenAI from 'openai';
-import { config } from '../config/logger';
+// import OpenAI from 'openai';
+import { logger } from '../config/logger';
+import { callQwenAI } from './ai.chat';
 
-const openai = new OpenAI();
+// const openai = new OpenAI();
 
 // 生成个性化推荐理由
 export async function generateRecommendationReason(
@@ -26,19 +27,24 @@ export async function generateRecommendationReason(
     );
 
     // 调用 AI 生成推荐理由
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'user', content: prompt }
-      ],
-      max_tokens: 150,
-      temperature: 0.7,
-    });
+    // const response = await openai.chat.completions.create({
+    //   model: 'gpt-4o-mini',
+    //   messages: [
+    //     { role: 'user', content: prompt }
+    //   ],
+    //   max_tokens: 150,
+    //   temperature: 0.7,
+    // });
 
-    const text = response.choices[0]?.message?.content || '';
-    return text.trim();
+    const text = await callQwenAI([{
+      role: 'user',
+      content: prompt
+    }])
+
+    // const text = response.choices[0]?.message?.content || '';
+    return text || '对方看起来很适合你，可以尝试了解';
   } catch (error) {
-    config.logger.error('[AI Recommend Reason] 生成推荐理由失败:', error);
+    logger.error('[AI Recommend Reason] 生成推荐理由失败:', error);
     return generateFallbackReason(currentUser, targetUser, matchedTags, isPriority);
   }
 }
@@ -110,7 +116,7 @@ function generateFallbackReason(
 
   // 城市匹配
   if (currentUser.currentCity && targetUser.currentCity &&
-      currentUser.currentCity === targetUser.currentCity) {
+    currentUser.currentCity === targetUser.currentCity) {
     reasons.push('同城匹配');
   }
 

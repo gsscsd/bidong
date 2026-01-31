@@ -5,9 +5,9 @@ import { logger } from '../config/logger';
 // 注意：不要复用之前的 client，因为 BaseURL 不同
 const siliconFlowClient = new OpenAI({
   // 硅基流动的 API Key
-  apiKey: Bun.env.SILICONFLOW_API_KEY, 
+  apiKey: process.env.SILICONFLOW_API_KEY, 
   // 硅基流动的地址，通常是 https://api.siliconflow.cn/v1
-  baseURL: Bun.env.SILICONFLOW_BASE_URL || 'https://api.siliconflow.cn/v1', 
+  baseURL: process.env.SILICONFLOW_BASE_URL || 'https://api.siliconflow.cn/v1', 
 });
 
 /**

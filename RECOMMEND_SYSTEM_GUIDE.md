@@ -152,12 +152,12 @@ bun run dev
 
 ### 5. 测试推荐接口
 ```bash
-curl http://localhost:3000/api/v3/recommendations/user_123
+curl http://localhost:3999/api/v3/recommendations/user_1769776955819_ofciy8e9y
 ```
 
 ### 6. 触发全量推荐（管理员）
 ```bash
-curl -X POST http://localhost:3000/api/v3/recommendations/batch
+curl -X POST http://localhost:3999/api/v3/recommendations/batch
 ```
 
 ## Worker 说明

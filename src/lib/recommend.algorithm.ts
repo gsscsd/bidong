@@ -1,4 +1,4 @@
-import { and, eq, notInArray, sql, cosineDistance } from 'drizzle-orm';
+import { and, eq, notInArray, sql, cosineDistance, gte, inArray } from 'drizzle-orm';
 import { db } from '../db';
 import {
   recommendUserProfiles,
@@ -69,10 +69,14 @@ export async function getBlacklist(userUuid: string): Promise<string[]> {
 
 // 获取近期交互用户ID
 export async function getInteractedIds(userUuid: string, days: number): Promise<string[]> {
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+
   const actions = await db.select().from(userActions).where(
     and(
       eq(userActions.fromUserId, userUuid),
-      sql`created_at > now() - interval '${days} days'`
+      // 2. 直接使用 gte (大于等于) 比较日期对象
+      gte(userActions.createdAt, startDate) 
     )
   );
   return [...new Set(actions.map(a => a.toUserId))];
@@ -80,11 +84,14 @@ export async function getInteractedIds(userUuid: string, days: number): Promise<
 
 // 获取未匹配用户ID（解绑）
 export async function getUnmatchedIds(userUuid: string, days: number): Promise<string[]> {
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
   const actions = await db.select().from(userActions).where(
     and(
       eq(userActions.fromUserId, userUuid),
       eq(userActions.actionType, 'unmatch'),
-      sql`created_at > now() - interval '${days} days'`
+      // sql`created_at > now() - interval '${days} days'`
+      gte(userActions.createdAt, startDate)
     )
   );
   return [...new Set(actions.map(a => a.toUserId))];
@@ -132,11 +139,14 @@ export async function buildExcludeList(userUuid: string): Promise<string[]> {
 
 // 获取心动回推用户（最近3天内喜欢过我的用户）
 export async function getPriorityUsers(userUuid: string, excludeIds: string[]): Promise<string[]> {
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - 3);
   const actions = await db.select().from(userActions).where(
     and(
       eq(userActions.toUserId, userUuid),
       eq(userActions.actionType, 'like'),
-      sql`created_at > now() - interval '3 days'`,
+      // sql`created_at > now() - interval '3 days'`,
+      gte(userActions.createdAt, startDate),
       notInArray(userActions.fromUserId, excludeIds)
     )
   );
@@ -147,7 +157,8 @@ export async function getPriorityUsers(userUuid: string, excludeIds: string[]): 
 export async function getTagNames(tagIds: number[]): Promise<string[]> {
   if (!tagIds || tagIds.length === 0) return [];
   const tags = await db.select().from(tagDefinitions).where(
-    sql`id = ANY(${tagIds})`
+    // sql`id = ANY(${tagIds})`
+    inArray(tagDefinitions.id, tagIds) // 使用内置的 inArray
   );
   return tags.map(t => t.name);
 }

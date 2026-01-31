@@ -237,6 +237,7 @@ async function main() {
     console.log('\n[Mock Data] ✅ 所有 Mock 数据生成完成！');
     console.log(`[Mock Data] 用户总数: ${MOCK_USER_COUNT}`);
     console.log(`[Mock Data] 标签总数: ${MOCK_TAG_COUNT}`);
+    process.exit(0); // 显式退出，强制关闭连接池
   } catch (error) {
     console.error('[Mock Data] ❌ 生成 Mock 数据失败:', error);
     process.exit(1);
