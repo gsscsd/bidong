@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, mock } from 'bun:test';
 import { extractUserProfileTags } from '../src/services/tag.service';
-import { callQwenAI } from '../src/lib/ai.chat';
+import { callQwenAI } from '../src/lib/client/ai.chat';
 import { EXTRACT_USER_PROFILE_TAGS_PROMPT } from '../src/constants/prompts';
 import { logger } from '../src/config/logger';
 import type { CreateExtractUserProfileTagDto } from '../src/types/user.profile.type';

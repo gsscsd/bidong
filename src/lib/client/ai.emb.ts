@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { logger } from '../config/logger';
+import { logger } from '../../config/logger';
 
 // 1. 初始化硅基流动专用的 Client
 // 注意：不要复用之前的 client，因为 BaseURL 不同

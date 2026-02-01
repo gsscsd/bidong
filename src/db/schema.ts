@@ -1,4 +1,4 @@
-import { pgTable, serial, text, integer, vector, jsonb, timestamp, index, smallint, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, integer, vector, jsonb, timestamp, index, smallint, pgEnum, boolean, real } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 
 export const actionTypeEnum = pgEnum('actionType', ['like', 'dislike', 'match', 'unmatch']);
@@ -6,13 +6,26 @@ export const actionTypeEnum = pgEnum('actionType', ['like', 'dislike', 'match', 
 // --- 1. 标签定义表 ---
 export const tagDefinitions = pgTable('tag_definitions', {
     id: serial('id').primaryKey(),
-    // 标签名称
     name: text('name').notNull(),
-    // 标签级别
     level: smallint('level').notNull(),
-    // 父级标签ID，0表示根标签
-    parentId: integer('parent_id'),
-    category: text('category'),
+    parentId: integer('parent_id'), 
+    category: text('category'), // 比如：性格、身材、兴趣、社会属性
+    isStandard: boolean('is_standard').default(false),
+    // --- 新增字段 ---
+    embedding: vector('embedding', { dimensions: 1024 }), // 存储语义向量
+    usageCount: integer('usage_count').default(0), // 统计热度，辅助初始排序
+    status: smallint('status').default(1), // 1: 启用, 0: 弃用, 2: 待审核
+}, (table) => {
+    return {
+        embeddingIdx: index('tag_embedding_idx').using('hnsw', table.embedding.op('vector_cosine_ops')),
+    };
+});
+
+// --- 1.1 LLM原始抽取的tag定义表 ---
+export const tagAliases = pgTable('tag_aliases', {
+    id: serial('id').primaryKey(),
+    rawName: text('raw_name').unique(), // LLM 抽取的原始字符串，如“爱去健身房”
+    standardTagId: integer('standard_tag_id').references(() => tagDefinitions.id), // 映射到“运动达人”
 });
 
 // --- 2. 算法推荐主表 (宽表设计) ---
@@ -43,6 +56,9 @@ export const recommendUserProfiles = pgTable('recommend_user_profiles', {
 
     tagsSnapshot: jsonb('tags_snapshot'),
     updateTime: timestamp('update_time').defaultNow(),
+    last_login_time: timestamp('last_login_time').defaultNow(), // 用户最近更新时间
+    last_active_time: timestamp('last_active_time').defaultNow(),  // 用户最近活跃时间
+    is_vip: smallint('is_vip').default(0), // 是否vip
 }, (table) => {
     return {
         embeddingIdx: index('embedding_idx').using('hnsw', table.embedding.op('vector_cosine_ops')),
@@ -84,11 +100,14 @@ export const dailyRecommendations = pgTable('daily_recommendations', {
 // --- 6. 标签关联表 ---
 export const tagCorrelations = pgTable('tag_correlations', {
     id: serial('id').primaryKey(),
-    // 源标签ID，起始标签
-    sourceTagId: integer('source_tag_id').notNull(), // 起始标签
-    // 目标标签ID，联想出的标签
-    targetTagId: integer('target_id').notNull(), // 联想出的标签
-    weight: integer('weight').default(1), // 关联强度，权重高的排在前面弹出
+    sourceTagId: integer('source_tag_id').notNull(),
+    targetTagId: integer('target_tag_id').notNull(),
+    // 语义权重：基于向量相似度计算的初始权重
+    semanticWeight: real('semantic_weight'),
+    // 业务权重：根据用户点击、共同持有率动态更新的权重（协同过滤）
+    coOccurrenceWeight: real('co_occurrence_weight'),
+    // 最终综合权重：用于前端排序
+    finalWeight: real('final_weight'),
 });
 
 // --- 7. 用户设置表 ---

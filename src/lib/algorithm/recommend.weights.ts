@@ -78,6 +78,11 @@ export const RecommendWeights = {
     candidateCount: 100, // 召回候选数量
   },
 
+  // 标签召回配置
+  tagRecall: {
+    candidateCount: 100, 
+  },
+
   // 最终推荐配置
   finalRecommendation: {
     defaultCount: 20, // 默认推荐数量

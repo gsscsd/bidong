@@ -2,6 +2,7 @@
   "name": "bidong",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
+    "worker": "bun run src/worker.ts",
     "build": "bun build src/index.ts --outdir dist --target bun --minify",
     "start": "bun run dist/index.js",
     "test": "bun test",

@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
-import { logger } from '../config/logger'; 
-import { ChatMessages }  from "../types/ai.type"
+import { logger } from '../../config/logger'; 
+import { ChatMessages }  from "../../types/ai.type"
 
 // 1. 初始化 Client (单例模式)
 // 放在函数外部，保证整个应用运行期间只初始化一次

@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "target": "ES2020", 
+    "module": "ESNext",
+    "moduleResolution": "bundler", // 或者 "node"
     "esModuleInterop": true,  // <--- 加上这一行
     "allowSyntheticDefaultImports": true, // 通常这个也会一起加上
     "strict": true,

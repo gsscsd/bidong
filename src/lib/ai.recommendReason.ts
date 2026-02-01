@@ -1,6 +1,6 @@
 // import OpenAI from 'openai';
 import { logger } from '../config/logger';
-import { callQwenAI } from './ai.chat';
+import { callQwenAI } from './client/ai.chat';
 
 // const openai = new OpenAI();
 

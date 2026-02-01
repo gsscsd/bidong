@@ -8,6 +8,13 @@
       "when": 1769776560724,
       "tag": "0000_easy_sue_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1769953709915,
+      "tag": "0001_rainy_quicksilver",
+      "breakpoints": true
     }
   ]
 }

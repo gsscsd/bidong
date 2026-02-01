@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, mock } from 'bun:test';
-import { callQwenAI } from '../src/lib/ai.chat';
+import { callQwenAI } from '../src/lib/client/ai.chat';
 import { logger } from '../src/config/logger';
 
 // Mock fetch

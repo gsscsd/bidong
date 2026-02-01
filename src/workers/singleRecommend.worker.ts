@@ -2,7 +2,7 @@ import { Worker } from 'bullmq';
 import { redisConnection } from '../config/redis';
 import { db } from '../db';
 import { dailyRecommendations } from '../db/schema';
-import { generateRecommendationsForUser } from '../lib/recommend.algorithm';
+import { generateRecommendationsForUser } from '../lib/algorithm/recommend.algorithm';
 
 interface SingleRecommendJobData {
   userId: string;
