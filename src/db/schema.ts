@@ -1,4 +1,4 @@
-import { pgTable, serial, text, integer, vector, jsonb, timestamp, index, smallint, pgEnum, boolean, real } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, integer, vector, jsonb, timestamp, index, smallint, pgEnum, boolean, real, doublePrecision, unique } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 
 export const actionTypeEnum = pgEnum('actionType', ['like', 'dislike', 'match', 'unmatch']);
@@ -8,7 +8,7 @@ export const tagDefinitions = pgTable('tag_definitions', {
     id: serial('id').primaryKey(),
     name: text('name').notNull(),
     level: smallint('level').notNull(),
-    parentId: integer('parent_id'), 
+    parentId: integer('parent_id'),
     category: text('category'), // 比如：性格、身材、兴趣、社会属性
     isStandard: boolean('is_standard').default(false),
     // --- 新增字段 ---
@@ -86,7 +86,7 @@ export const userBlacklist = pgTable('user_blacklist', {
     targetId: text('target_id').notNull(),
 });
 
-// --- 5. 离线推荐结果表 ---
+// --- 5. 离线推荐结果表 --- 后续会放弃这个表，直接使用recommendationQueue表
 export const dailyRecommendations = pgTable('daily_recommendations', {
     id: serial('id').primaryKey(),
     // .unique() 写在列定义上
@@ -96,6 +96,58 @@ export const dailyRecommendations = pgTable('daily_recommendations', {
     calculateDate: text('calculate_date').notNull(),
     updatedAt: timestamp('updated_at').defaultNow(),
 });
+
+// --- 5. 离线推荐结果表 ---
+// 从原始的推荐json数据转成行数据，方便后续的计算和排序
+export const recommendationQueue = pgTable('recommendation_queue', {
+    // 自增 ID，用于唯一标识这一条推荐记录
+    id: serial('id').primaryKey(),
+
+    // 目标用户（谁看推荐）
+    userId: text('user_id').notNull(),
+
+    // 候选用户（被推荐的人）
+    targetUserId: text('target_user_id').notNull(),
+
+    // 推荐得分（用于排序）
+    score: doublePrecision('score').notNull(),
+
+    // // 推荐理由、标签等透传数据（这里用 JSONB 没问题，因为这些数据是只读的，不会改里面的字段）
+    // metaData: jsonb('meta_data').$type<{
+    //     reason?: string;
+    //     tags?: string[];
+    //     isPriority?: boolean;
+    // }>(),
+
+    // 是否高优先匹配
+    isPriority: boolean('is_priority').default(false),
+
+    // tags 数组，用于前端展示
+    tags: text('tags').array().default(sql`'{}'::text[]`),
+
+    // reason 字符串，用于前端展示
+    reason: text('reason').default(''),
+
+    // --- 核心状态字段 ---
+    // 0: 待推荐 (Pending), 1: 已展示 (Impression), 2: 已喜欢/已滑走 (Consumed)
+    // 或者简单点：isConsumed: boolean
+    status: smallint('status').default(0).notNull(),
+
+    // 计算批次/日期（用于清理过期数据）
+    batchDate: text('batch_date').notNull(),
+
+    createdAt: timestamp('created_at').defaultNow(),
+    updatedAt: timestamp('updated_at').defaultNow(),
+}, (t) => [ 
+    // 索引优化：
+    // 1. 核心查询：“查找 UserA 的所有未消费推荐，按分数排序”
+    // 这个复合索引能让库存检查和获取列表飞快
+    index('rec_queue_fetch_idx').on(t.userId, t.status, t.score),
+
+    // 2. 唯一约束：防止同一天/或永远 重复推荐同一个人给用户
+    // 如果允许隔天重复推荐，可以带上 batchDate；如果不允许，则只用 userId + targetUserId
+    unique('unique_user_target_pair').on(t.userId, t.targetUserId),
+]);
 
 // --- 6. 标签关联表 ---
 export const tagCorrelations = pgTable('tag_correlations', {
