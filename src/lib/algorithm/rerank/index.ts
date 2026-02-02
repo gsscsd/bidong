@@ -1,4 +1,4 @@
-import { Candidate, UserProfile, UserSetting } from "../recall";
+import { Candidate, UserProfile, UserSetting } from "..";
 import { RecommendWeights } from "../recommend.weights";
 import { db } from "../../../db";
 import {
@@ -9,6 +9,7 @@ import {
     userSettings
 } from '../../../db/schema';
 import { and, eq, gte } from "drizzle-orm";
+import { is } from "zod/v4/locales";
 
 
 /**
@@ -87,45 +88,45 @@ async function getPriorityUsers(userUuid: string, excludeIds: string[]): Promise
 
 
 
-export async function rerank(userUuid: string, candidateUsers: Candidate[]) {
+export async function rerank(userUuid: string, userRecord: UserProfile, settings: UserSetting, candidateUsers: Candidate[]) {
 
-    // 1. 并行获取基础信息
-    const [userRecord, settingsRecord] = await Promise.all([
-        db.query.recommendUserProfiles.findFirst({ where: eq(recommendUserProfiles.userUuid, userUuid) }),
-        db.query.userSettings.findFirst({ where: eq(userSettings.userUuid, userUuid) })
-    ]);
-    if (!userRecord) throw new Error("User not found");
+    // // 1. 并行获取基础信息
+    // const [userRecord, settingsRecord] = await Promise.all([
+    //     db.query.recommendUserProfiles.findFirst({ where: eq(recommendUserProfiles.userUuid, userUuid) }),
+    //     db.query.userSettings.findFirst({ where: eq(userSettings.userUuid, userUuid) })
+    // ]);
+    // if (!userRecord) throw new Error("User not found");
     // 3. 获取心动回推列表
     const priorityIds = await getPriorityUsers(userUuid, [userUuid]);
 
-    // 该用户的召回配置条件
-    const settings: UserSetting = {
-        // 召回个数
-        recommendCount: settingsRecord?.recommendCount ?? 20,
-        // 年龄范围
-        preferredAgeMin: settingsRecord?.preferredAgeMin ?? userRecord.age! - 5,
-        preferredAgeMax: settingsRecord?.preferredAgeMax ?? userRecord.age! + 5,
-        // 身高范围
-        preferredHeightMin: settingsRecord?.preferredHeightMin ?? 150,
-        preferredHeightMax: settingsRecord?.preferredHeightMax ?? 200,
-        // 偏好城市，如果存在的话？
-        preferredCities: settingsRecord?.preferredCities ?? [],
-    };
-
+    // // 该用户的召回配置条件
+    // const settings: UserSetting = {
+    //     // 召回个数
+    //     recommendCount: settingsRecord?.recommendCount ?? 20,
+    //     // 年龄范围
+    //     preferredAgeMin: settingsRecord?.preferredAgeMin ?? userRecord.age! - 5,
+    //     preferredAgeMax: settingsRecord?.preferredAgeMax ?? userRecord.age! + 5,
+    //     // 身高范围
+    //     preferredHeightMin: settingsRecord?.preferredHeightMin ?? 150,
+    //     preferredHeightMax: settingsRecord?.preferredHeightMax ?? 200,
+    //     // 偏好城市，如果存在的话？
+    //     preferredCities: settingsRecord?.preferredCities ?? [],
+    // };
 
     // 5. 评分与排序
-    const results = candidateUsers.map(candidate => {
+    const results: Candidate[] = candidateUsers.map(candidate => {
         const isPriority = priorityIds.includes(candidate.userId);
         return {
             userId: candidate.userId,
-            score: calculateScore(userRecord as UserProfile, settings, candidate.profile, isPriority),
-            isPriority,
+            rawScore: calculateScore(userRecord as UserProfile, settings, candidate.profile, isPriority),
+            isPriority: isPriority,
             tags: [],
             profile: candidate.profile,
+            recallSources: candidate.recallSources
         };
     });
 
     return results
-        .sort((a, b) => b.score - a.score)
+        .sort((a, b) => b.rawScore - a.rawScore)
         .slice(0, 30);
 }

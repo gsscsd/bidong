@@ -9,7 +9,7 @@ import {
 } from '../../../db/schema';
 import { RecommendWeights, isSameCity } from '../recommend.weights';
 import { logger } from '../../../config/logger';
-import { UserSetting, UserProfile } from '.';
+import { UserSetting, UserProfile } from '../';
 
 
 /**

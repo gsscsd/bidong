@@ -8,7 +8,7 @@ import {
 } from '../../../db/schema';
 import { RecommendWeights } from '../recommend.weights';
 import { logger } from '../../../config/logger';
-import { UserSetting, UserProfile } from '.';
+import { UserSetting, UserProfile } from '../';
 
 /**
  * 标签召回算法 (Tag-Based Recall)

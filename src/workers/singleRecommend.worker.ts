@@ -2,7 +2,7 @@ import { Worker } from 'bullmq';
 import { redisConnection } from '../config/redis';
 import { db } from '../db';
 import { dailyRecommendations } from '../db/schema';
-import { generateRecommendationsForUser } from '../lib/algorithm/recommend.algorithm';
+import { generateRecommendationsForUser } from '../lib/algorithm';
 
 interface SingleRecommendJobData {
   userId: string;
@@ -21,7 +21,7 @@ export const singleRecommendWorker = new Worker<SingleRecommendJobData>('single-
   // 构建推荐结果
   const recommendedUsers = recommendations.map(r => ({
     userId: r.userId,
-    score: r.score,
+    score: r.rawScore,
     isPriority: r.isPriority,
     tags: r.tags,
     reason: '', // 暂时为空，后续由 AI Worker 生成

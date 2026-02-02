@@ -31,7 +31,10 @@ router.get('/recommendations/:userId', async (c) => {
     const today = new Date().toISOString().split('T')[0];
     const recommendations = await db.select().from(dailyRecommendations).where(eq(dailyRecommendations.userId, userId)).limit(1);
 
-    if (recommendations.length === 0 || recommendations[0].calculateDate !== today) {
+    logger.info(`[Recommend API] 用户 ${userId} 今日推荐数据: ${recommendations.length}`)
+
+    // if (recommendations.length === 0 || recommendations[0].calculateDate !== today) {
+    if (recommendations.length === 0) {
       // 无今日推荐数据，触发异步任务
       logger.info(`[Recommend API] 用户 ${userId} 今日推荐数据不存在，触发异步任务`);
 
