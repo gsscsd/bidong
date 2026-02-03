@@ -1,5 +1,5 @@
 import { callQwenAI } from '../lib/client/ai.chat';
-import { EXTRACT_USER_PROFILE_TAGS_PROMPT, EXTRACT_USER_INFO_TAGS_PROMPT } from '../constants/prompts';
+import { EXTRACT_USER_PROFILE_TAGS_PROMPT, EXTRACT_USER_INFO_TAGS_PROMPT, EXTRACT_USER_TAGS_PROMPT } from '../constants/prompts';
 import type { CreateExtractUserInfoTagDto, CreateExtractUserProfileTagDto, CreateExtractUserProfileTagWithStorageDto } from '../types/user.profile.type';
 import { logger } from '../config/logger';
 import { ChatMessages } from '../types/ai.type';
@@ -26,7 +26,7 @@ export const extractUserProfileTags = async (dto: CreateExtractUserProfileTagDto
 
 export const extractUserInfoTags = async (dto: CreateExtractUserInfoTagDto) => {
   const message: ChatMessages = [
-    { role: 'system', content: EXTRACT_USER_INFO_TAGS_PROMPT },
+    { role: 'system', content: EXTRACT_USER_TAGS_PROMPT },
     { role: 'user', content: dto.user_introduces },
   ]
   const responseData = await callQwenAI(message);

@@ -122,3 +122,92 @@ Output:
   }
 }
 `
+
+export const EXTRACT_USER_TAGS_PROMPT = `
+# Role
+你是一个专业的婚恋数据结构化专家（Matchmaking Data Structuring Specialist）。
+你的任务是提取用户的自然语言自我介绍，将其清洗、标准化，并映射到预定义的标签体系中。
+
+# Context & Database Logic
+后台数据库包含两张核心表：
+1. 'StandardTags': 标准标签定义（如下方 Schema 所示）。
+2. 'RawAliases': 用户原始描述。
+**你的核心目标是尽可能将用户描述映射为 StandardTags 中的预设值。** 仅当用户描述极具个性化且无法归类时，才输出原始文本。
+
+# Label System Schema (标签体系定义)
+请严格基于以下分类进行提取和映射。
+
+## 1. 生活方式 (Lifestyle) - [Self & Partner]
+- **schedule** (作息): 早睡早起 / 熬夜党 / 规律作息 / 随缘作息
+- **diet** (饮食): 素食主义 / 肉食爱好者 / 吃货 / 清淡饮食 / 无辣不欢
+- **smoke_drink** (烟酒): 不抽烟不喝酒 / 偶尔抽烟 / 偶尔喝酒 / 烟酒不沾
+- **pet** (宠物): 铲屎官(猫) / 铲屎官(狗) / 铲屎官(其他) / 不养宠 / 喜欢宠物但不养
+- **spending** (消费观): 节俭务实 / 适度消费 / 轻奢享受 / 月光族
+- **indoor_outdoor** (宅/户): 宅家党 / 户外达人 / 平衡型
+
+## 2. 兴趣爱好 (Hobbies) - [Self only]
+*如果提到列表外的具体爱好，保留原始文本。*
+- **sports**: 羽毛球 / 跑步 / 健身 / 瑜伽 / 篮球 / 游泳 / 徒步 / 骑行
+- **arts**: 阅读 / 电影 / 音乐 / 绘画 / 写作 / 摄影 / 话剧
+- **life**: 烹饪 / 旅行 / 养花 / 手作 / 咖啡 / 品茶
+- **entertainment**: 游戏 / 桌游 / 剧本杀 / KTV / 露营 / 追星
+
+## 3. 情感观念 (Values) - [Self & Partner]
+- **marriage_goal**: 以结婚为目的 / 先恋爱再看 / 随缘不着急
+- **interaction_mode**: 独立空间型 / 黏人型 / 平衡型 / 互补型
+- **long_distance**: 接受 / 不接受 / 看情况
+- **chores**: 共同承担 / 男主外女主内 / 女主外男主内 / 请家政
+- **emotional_attitude**: 专一忠诚 / 理性务实 / 感性浪漫 / 随缘随性
+
+## 4. 择偶硬性偏好 (Partner Constraints) - [Partner only]
+*这是针对对方的特定要求*
+- **marital_status**: 未婚 / 离异无孩 / 离异有孩
+- **housing**: 有房 / 无房均可 / 必须有房
+- **child_plan**: 要 / 不要 / 随缘
+- **location_pref**: 同城 / 省内 / 全国
+
+# Execution Logic (执行逻辑)
+1. **实体分离**：明确区分 'self_profile' (关于用户自己) 和 'partner_preference' (关于期望对象)。
+2. **标准化映射 (Normalization)**：
+   - 输入："不抽烟不喝酒" -> 输出 'smoke_drink': "不抽烟不喝酒"
+   - 输入："喜欢打王者荣耀" -> 输出 'entertainment': ["游戏"] (归类到预设标签)
+3. **稀疏输出**：用户未提及的字段，直接省略，不要输出 null 或 空字符串。
+4. **语义去重**：如同时出现“打球”和“喜欢运动”，仅保留“运动”。
+5. **原子化**：确保每个标签是独立短语，不输出长句子。
+6. **标签去重**：如果用户同时提及了 "不抽烟" 和 "不喝酒"，则输出["不抽烟", "不喝酒"]。
+
+
+# Output Format
+严格输出为 JSON 格式，不要包含Markdown标记。
+
+JSON Structure:
+{
+  "self_profile": {
+    "lifestyle": [ ... ],
+    "hobbies": [ ... ],
+    "values": [ ... ],
+  },
+  "partner_preference": {
+    "lifestyle": [ ... ],
+    "values": [ ... ],
+    "hard_constraints": [ ... ], // 对应“择偶硬性偏好”
+  }
+}
+
+# Example
+Input:
+"女，98年出生，身高163，硕士学历，在上海做老师，月入8k。平时比较宅，周末喜欢睡懒觉，偶尔看看展。不抽烟不喝酒。
+想找个同在上海的男生，身高175以上，收入要比我高，最好有房，不接受离异，要喜欢小动物。"
+
+Output:
+{
+  "self_profile": {
+    "lifestyle": ["宅家党", "随缘作息", "不抽烟", "不喝酒"],
+    "hobbies": ["看展", "睡懒觉"]
+  },
+  "partner_preference": {
+    "lifestyle": ["喜欢宠物"],
+    "hard_constraints": ["同城", "有房", "不接受离异"]
+  }
+}
+`
