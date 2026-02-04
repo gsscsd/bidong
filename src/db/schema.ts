@@ -53,6 +53,9 @@ export const recommendUserProfiles = pgTable('recommend_user_profiles', {
     l1TagIds: integer('l1_tag_ids').array().default(sql`'{}'::integer[]`),
     l2TagIds: integer('l2_tag_ids').array().default(sql`'{}'::integer[]`),
     l3TagIds: integer('l3_tag_ids').array().default(sql`'{}'::integer[]`),
+    // 新增的用户个人标签以及理想型标签，这里的id是对应了tag_definitions表的id
+    selfTags: integer('self_tags').array().default(sql`'{}'::integer[]`),
+    partnerTags: integer('partner_tags').array().default(sql`'{}'::integer[]`),
 
     tagsSnapshot: jsonb('tags_snapshot'),
     updateTime: timestamp('update_time').defaultNow(),

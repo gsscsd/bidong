@@ -3,7 +3,8 @@ import { EXTRACT_USER_PROFILE_TAGS_PROMPT, EXTRACT_USER_INFO_TAGS_PROMPT, EXTRAC
 import type { CreateExtractUserInfoTagDto, CreateExtractUserProfileTagDto, CreateExtractUserProfileTagWithStorageDto } from '../types/user.profile.type';
 import { logger } from '../config/logger';
 import { ChatMessages } from '../types/ai.type';
-import { upsertUserProfileWithTags } from '../db/repos/tag.repos';
+import { upsertUserProfileWithTags, upsertUserTags } from '../db/repos/tag.repos';
+import type { TagResult } from '../db/repos/tag.repos';
 
 export const extractUserProfileTags = async (dto: CreateExtractUserProfileTagDto) => {
   const message: ChatMessages = [
@@ -47,7 +48,8 @@ export const extractUserInfoTags = async (dto: CreateExtractUserInfoTagDto) => {
  * 1. 调用AI抽取标签
  * 2. 将标签完整存入 tagsSnapshot 字段
  * 3. 将用户完整信息存入 recommendUserProfiles 表
- * 4. 返回抽取的标签结果
+ * 4. 将标签存入 tag_definitions 表，并将id存入 recommendUserProfiles 的 selfTags 和 partnerTags
+ * 5. 返回抽取的标签结果
  */
 export const extractUserProfileTagsWithStorage = async (dto: CreateExtractUserProfileTagWithStorageDto) => {
   try {
@@ -65,7 +67,7 @@ export const extractUserProfileTagsWithStorage = async (dto: CreateExtractUserPr
 
     const tagsResult = typeof content === 'string' ? JSON.parse(content) : content;
 
-    // 2. 存储到数据库
+    // 2. 存储到数据库（基础信息）
     await upsertUserProfileWithTags(dto, tagsResult);
 
     logger.info('用户信息存储成功', {
@@ -73,7 +75,16 @@ export const extractUserProfileTagsWithStorage = async (dto: CreateExtractUserPr
       tags_snapshot: tagsResult,
     });
 
-    // 3. 返回标签抽取结果
+    // 3. 将标签存入 tag_definitions 表，并更新 selfTags 和 partnerTags
+    const tagIds = await upsertUserTags(dto.user_uuid, tagsResult as TagResult);
+
+    logger.info('用户标签ID存储成功', {
+      user_uuid: dto.user_uuid,
+      self_tag_ids: tagIds.selfTagIds,
+      partner_tag_ids: tagIds.partnerTagIds,
+    });
+
+    // 4. 返回扁平化后的标签结果
     return tagsResult;
   } catch (error) {
     logger.error('抽取标签并存储失败', {
