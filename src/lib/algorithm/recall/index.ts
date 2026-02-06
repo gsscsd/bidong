@@ -77,8 +77,8 @@ export async function resultForRecall(userRecord: UserProfile, settings: UserSet
     // 并行执行多路召回
     const [vectorCandidates, tagCandidates] = await Promise.all([
         vectorRecall(userRecord, settings),
-        // tagRecall(userRecord, settings)
-        []
+        tagRecall(userRecord, settings)
+        // []
     ]);
 
     // 去重 (因为一个人可能既像你(向量)，又和你有共同标签)

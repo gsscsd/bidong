@@ -1,6 +1,6 @@
 // import OpenAI from 'openai';
-import { logger } from '../config/logger';
-import { callQwenAI } from './client/ai.chat';
+import { logger } from '../../../config/logger';
+import { callQwenAI } from '../../client/ai.chat';
 
 // const openai = new OpenAI();
 
@@ -25,16 +25,6 @@ export async function generateRecommendationReason(
       score,
       isPriority
     );
-
-    // 调用 AI 生成推荐理由
-    // const response = await openai.chat.completions.create({
-    //   model: 'gpt-4o-mini',
-    //   messages: [
-    //     { role: 'user', content: prompt }
-    //   ],
-    //   max_tokens: 150,
-    //   temperature: 0.7,
-    // });
 
     const text = await callQwenAI([{
       role: 'user',

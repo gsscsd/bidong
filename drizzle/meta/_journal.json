@@ -15,6 +15,13 @@
       "when": 1769953709915,
       "tag": "0001_rainy_quicksilver",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1770291460957,
+      "tag": "0002_thankful_aaron_stack",
+      "breakpoints": true
     }
   ]
 }

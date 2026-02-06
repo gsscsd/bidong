@@ -54,7 +54,9 @@ export async function generateRecommendationsForUser(userUuid: string): Promise<
         preferredCities: settingsRecord?.preferredCities ?? [],
     };
 
+    // 入参为待推荐用户的信息，以及用户的偏好设置，返回候选用户的id，召回来源，召回分数，用户信息
     const candidateUsers = await resultForRecall(userRecord, settings);
+    // 重排序，入参为待推荐用户的信息，用户的偏好设置，候选用户的id，召回来源，召回分数，用户信息，返回重排序后的候选用户的id，召回来源，召回分数，用户信息
     const recommendCandidates = await rerank(userUuid, userRecord, settings, candidateUsers);
     return recommendCandidates;
 }

@@ -10,6 +10,7 @@ import {
 } from '../../../db/schema';
 import { and, eq, gte } from "drizzle-orm";
 import { is } from "zod/v4/locales";
+import { set } from "zod";
 
 
 /**
@@ -116,6 +117,7 @@ export async function rerank(userUuid: string, userRecord: UserProfile, settings
     // 5. 评分与排序
     const results: Candidate[] = candidateUsers.map(candidate => {
         const isPriority = priorityIds.includes(candidate.userId);
+        // 返回重排序结果，根据待推荐用户的信息重新计算候选用户的得分
         return {
             userId: candidate.userId,
             rawScore: calculateScore(userRecord as UserProfile, settings, candidate.profile, isPriority),
@@ -126,7 +128,8 @@ export async function rerank(userUuid: string, userRecord: UserProfile, settings
         };
     });
 
+    // 6. 候选结果重排序以及对召回结果进行截断
     return results
         .sort((a, b) => b.rawScore - a.rawScore)
-        .slice(0, 30);
+        .slice(0, settings.recommendCount);
 }
