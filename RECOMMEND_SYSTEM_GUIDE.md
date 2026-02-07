@@ -152,7 +152,7 @@ bun run dev
 
 ### 5. 测试推荐接口
 ```bash
-curl http://localhost:3999/api/v3/recommendations/user_1769779191261_8gdsdqqto
+curl http://localhost:3999/api/v3/recommendations/user_1769779191261_zxh2o3bci
 ```
 
 ### 6. 触发全量推荐（管理员）

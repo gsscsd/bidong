@@ -2,12 +2,15 @@ import { Hono } from 'hono';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import { db } from '../../db';
-import { dailyRecommendations, recommendUserProfiles } from '../../db/schema';
-import { eq } from 'drizzle-orm';
+import { dailyRecommendations, recommendUserProfiles, recommendationQueue } from '../../db/schema';
+import { and, eq } from 'drizzle-orm';
 import { recommendQueue, singleRecommendQueue, aiRecommendQueue } from '../../queue';
 import { logger } from '../../config/logger';
 
 const router = new Hono();
+
+type recommendationUser = typeof recommendationQueue.$inferSelect;
+
 
 /**
  * v3 接口：获取推荐列表
@@ -29,7 +32,12 @@ router.get('/recommendations/:userId', async (c) => {
 
     // 2. 查询离线推荐结果
     const today = new Date().toISOString().split('T')[0];
-    const recommendations = await db.select().from(dailyRecommendations).where(eq(dailyRecommendations.userId, userId)).limit(1);
+    const recommendations: recommendationUser[] = await db.select().from(recommendationQueue).where(
+      and(
+        eq(recommendationQueue.userId, userId),
+        eq(recommendationQueue.status, 1)
+      )
+    );
 
     logger.info(`[Recommend API] 用户 ${userId} 今日推荐数据: ${recommendations.length}`)
 
@@ -52,10 +60,18 @@ router.get('/recommendations/:userId', async (c) => {
     }
 
     // 3. 返回推荐列表
-    const recommendData = recommendations[0].recommendeUsers || [];
+    // const recommendData = recommendations[0].recommendeUsers || [];
+
+    const recommendData = recommendations.map(r => ({
+      userId: r.userId,
+      rawScore: r.score,
+      isPriority: r.isPriority,
+      tags: r.tags,
+      reason: r.reason,
+    }));
 
     // 如果推荐理由未生成，触发 AI 任务
-    const hasUnfinishedReasons = recommendData.some((r: any) => !r.reasonGenerated);
+    const hasUnfinishedReasons = recommendData.some((r: any) => !r.reason);
     if (hasUnfinishedReasons) {
       logger.info(`[Recommend API] 用户 ${userId} 推荐理由未完成，触发 AI 任务`);
 

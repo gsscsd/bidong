@@ -6,7 +6,7 @@ import { serveStatic } from 'hono/bun';
 import { 
   recommendQueue, 
   singleRecommendQueue, 
-  aiRecommendQueue 
+  aiRecommendQueue,
 } from './queue'; // 引入你定义的所有队列
 
 export const setupDashboard = (basePath: string = '/ui') => {

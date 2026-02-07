@@ -4,7 +4,7 @@ import type { CreateExtractUserInfoTagDto, CreateExtractUserProfileTagDto, Creat
 import { logger } from '../config/logger';
 import { ChatMessages } from '../types/ai.type';
 import { upsertUserProfileWithTags, upsertUserTags } from '../db/repos/tag.repos';
-import type { TagResult } from '../db/repos/tag.repos';
+// import type { TagResult } from '../db/repos/tag.repos';
 
 export const extractUserProfileTags = async (dto: CreateExtractUserProfileTagDto) => {
   const message: ChatMessages = [
@@ -76,7 +76,7 @@ export const extractUserProfileTagsWithStorage = async (dto: CreateExtractUserPr
     });
 
     // 3. 将标签存入 tag_definitions 表，并更新 selfTags 和 partnerTags
-    const tagIds = await upsertUserTags(dto.user_uuid, tagsResult as TagResult);
+    const tagIds = await upsertUserTags(dto.user_uuid, tagsResult);
 
     logger.info('用户标签ID存储成功', {
       user_uuid: dto.user_uuid,
